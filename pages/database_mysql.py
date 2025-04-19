@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 
 st.header("Database QC")
 
@@ -38,21 +37,22 @@ multiple_query = """
 show databases;
 use bhhdeiho5kfkljyqx1ae;
 show tables;
-select * from table1;
+select * from table1
 """
 
-mysql_data=""
+mysql_data=[]
 for query in multiple_query.split(';'):
     cursor.execute(query)
     for x in cursor:
-        type(x)
+        print(type(x))
         print(x)
         mysql_data.append(x)
 
 # disconnecting from server
 mydb.close() 
 
-
-button1 = st.button("show sample records")
+print(type(mysql_data))
+print(mysql_data)
+button1 = st.button("show sample mysql records")
 if button1 == True and len(mysql_data)>0:
     st.write(mysql_data)
