@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 st.header("Database QC")
 
@@ -19,7 +20,7 @@ print("**********   **********")
 print(mydb)
 
 # preparing a cursor object 
-cursor = mydb.cursor()
+cursor = mydb.cursor(dictionary=True)
 
 print("********** single query **********")
 #querying
@@ -40,19 +41,36 @@ show tables;
 select * from table1
 """
 
+#not in proper format
+# mysql_data=[]
+# for query in multiple_query.split(';'):
+#     cursor.execute(query)
+#     for x in cursor:
+#         print(type(x))
+#         print(x)
+#         mysql_data.append(x)
+#
+#print(type(mysql_data))
+#print(mysql_data)
+
+#other format
 mysql_data=[]
 for query in multiple_query.split(';'):
     cursor.execute(query)
-    for x in cursor:
-        print(type(x))
-        print(x)
-        mysql_data.append(x)
+    #columns = [i[0] for i in cursor.description]
+    mysql_data = cursor.fetchall()
+    print("type(mysql_data) : ",type(mysql_data))
+    #print(columns)
+    print("---------")
+    df = pd.DataFrame(mysql_data)
+    print(df)
+    print("**************")
+
 
 # disconnecting from server
 mydb.close() 
 
-print(type(mysql_data))
-print(mysql_data)
 button1 = st.button("show sample mysql records")
 if button1 == True and len(mysql_data)>0:
     st.write(mysql_data)
+    st.dataframe(df)
