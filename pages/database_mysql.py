@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import time
 
 st.header("Database QC")
 
@@ -33,13 +34,19 @@ for x in cursor:
     print(x)
 
 
+table_mysql = st.text_input("Enter mysql table name")
+
 print("********** multiple query **********")
 multiple_query = """
 show databases;
 use bhhdeiho5kfkljyqx1ae;
 show tables;
-select * from table1
-"""
+select * from {}
+""".format(table_mysql)
+
+button_mysql_data = st.button("explore")
+if button_mysql_data == False :
+    time.sleep(30)
 
 #not in proper format
 # mysql_data=[]
@@ -72,5 +79,7 @@ mydb.close()
 
 button1 = st.button("show sample mysql records")
 if button1 == True and len(mysql_data)>0:
+    st.subheader("Data in normal format")
     st.write(mysql_data)
+    st.subheader("Data in dataframe format")
     st.dataframe(df)
