@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_sample_records(data):
-    st.dataframe(data.head(4))
+    st.dataframe(data)
 
 def show_columns(data):
     st.write("columns : ",data.columns)

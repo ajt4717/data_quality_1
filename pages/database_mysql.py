@@ -104,10 +104,13 @@ if button_explore == True :
 #     st.subheader("Data in dataframe format")
 #     st.dataframe(df)
 
+number_of_sample_records = 10
+number_of_sample_records = st.number_input("Enter number of sample records")
 button1 = st.button("show sample records")
 if button1 == True:
     #st.dataframe(data.head(4))
-    data = execute_query(table_mysql)
+    sql = """use {}; select * from {} limit {}""".format(database_mysql,table_mysql,int(number_of_sample_records))
+    data = execute_query(table_mysql,sql)
     myFunction.show_sample_records(data)
 
 button2 = st.button("show columns")
